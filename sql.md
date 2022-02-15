@@ -153,3 +153,26 @@ and bks.starttime >= '2012-09-21'
 and bks.starttime < '2012-09-22'
 Order by bks.starttime
 ```
+
+
+### Self join
+How can you output a list of all members who have recommended another member? Ensure that there are no duplicates in the list, and that results are ordered by (surname, firstname).
+
+```sql
+select distinct a.firstname, a.surname
+from cd.members a, cd.members b
+where a.memid <> b.memid
+and a.memid = b.recommendedby
+
+Order by a.surname, a.firstname
+
+```
+
+```sql
+select distinct recs.firstname as firstname, recs.surname as surname
+	from
+		cd.members mems
+		inner join cd.members recs
+			on recs.memid = mems.recommendedby
+order by surname, firstname;  
+```
